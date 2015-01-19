@@ -67,28 +67,7 @@ var render=function(){
 };
 
 
-var filter= function (filter) {
-    if(!filter){
-        filteredUser=users
-    }
-    else {
-        filteredUser = users.filter(function (item) {
-            return (item.lastname.toLowerCase().indexOf(filter.toLowerCase()) != -1 || item.firstname.toLowerCase().indexOf(filter.toLowerCase())!= -1);
-        });
-    }
-};
 
 $(function(){
     render();
-    $('#filter-input').keyup(function (e) {
-        console.log('change');
-        filter($('#filter-input').val());
-        render();
-    });
-
-    $('#filter-button').click(function (e) {
-        filter($('#filter-input').val());
-        render();
-    })
-
 });
