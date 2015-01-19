@@ -1,0 +1,22 @@
+{
+  "name": "hands-on-unit-test",
+  "version": "1.0.0",
+  "description": "Javascript Unit test Handson",
+  "keywords": [
+    "javascript",
+    "unit",
+    "test",
+    "jasmine"
+  ],
+  "authors": [
+    "cbalit"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

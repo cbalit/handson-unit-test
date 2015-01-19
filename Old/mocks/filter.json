@@ -1,0 +1,12 @@
+{   "status":"ok",
+    "filterDatas":[
+        {
+            "id":"div1",
+            "roles":["filterA"]
+        },
+        {
+            "id":"div2",
+            "roles":["filterA", "filterB"]
+        }
+    ]
+}
