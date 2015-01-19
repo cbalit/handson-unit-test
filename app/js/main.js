@@ -3,46 +3,52 @@
  */
 var users=filteredUser=[
         {
-            "id": "54b525c472540a87ce06f0ae",
+            "id": "54b525c472540a87",
             "firstname": "Suzanne",
             "lastname": "Mcbride",
             "mail": "suzannemcbride@accupharm.com",
-            "company": "COMTEXT"
+            "company": "COMTEXT",
+            "roles":["ADMIN"]
         },
         {
-            "id": "54b525c4d48c59770408f37e",
+            "id": "54b525c4d48c5977",
             "firstname": "Carroll",
             "lastname": "Humphrey",
             "mail": "carrollhumphrey@comtext.com",
-            "company": "DEVILTOE"
+            "company": "DEVILTOE",
+            "roles":["ADMIN"]
         },
         {
-            "id": "54b525c4d7e55f2daef2be15",
+            "id": "54b525c4d7e55f2d",
             "firstname": "Terry",
             "lastname": "Mckinney",
             "mail": "terrymckinney@deviltoe.com",
-            "company": "VIASIA"
+            "company": "VIASIA",
+            "roles":["READ","WRITE"]
         },
         {
-            "id": "54b525c4d233cc5ae9d81443",
+            "id": "54b525c4d233cc5a",
             "firstname": "Maureen",
             "lastname": "Hobbs",
             "mail": "maureenhobbs@viasia.com",
-            "company": "MAGNINA"
+            "company": "MAGNINA",
+            "roles":["READ","WRITE"]
         },
         {
-            "id": "54b525c4748ad81682126c79",
+            "id": "54b525c4748ad8",
             "firstname": "Ida",
             "lastname": "Raymond",
             "mail": "idaraymond@magnina.com",
-            "company": "PHARMEX"
+            "company": "PHARMEX",
+            "roles":["READ"]
         },
         {
-            "id": "54b525c456c8a10f67891f07",
+            "id": "54b525c456c8a1",
             "firstname": "Young",
             "lastname": "Jacobson",
             "mail": "youngjacobson@pharmex.com",
-            "company": "XPLOR"
+            "company": "XPLOR",
+            "roles":["ANONYMOUS"]
         }
     ];
 
@@ -52,10 +58,10 @@ var render=function(){
     filteredUser.forEach(function(item){
         body.append('<tr>' +
         '<td>'+item.id+'</td>' +
-        '<td>'+item.firstname+'</td>' +
-        '<td>'+item.lastname+'</td>' +
+        '<td>'+item.firstname+' '+item.lastname+'</td>' +
         '<td>'+item.mail+'</td>' +
         '<td>'+item.company+'</td>' +
+        '<td>'+item.roles+'</td>' +
         '</tr>')
     });
 };
