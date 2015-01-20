@@ -56,27 +56,10 @@ var users=filteredUser=[
         }
     ];
 
-var render=function(){
-    var body=$('#users tbody');
-    body.empty();
-    filteredUser.forEach(function(item){
-        body.append('<tr>' +
-        '<td>'+item.id+'</td>' +
-        '<td>'+item.firstname+' '+item.lastname+'</td>' +
-        '<td>'+item.mail+'</td>' +
-        '<td>'+item.company+'</td>' +
-        '<td>'+item.roles+'</td>' +
-        '</tr>')
-    });
-};
-
-
-
 $(function(){
-    render();
+    var controller = new handson.Controller($('#users'));
     var filter = new handson.Filter();
-    $('#filter-button').click(function (e) {
-        filteredUser=filter.filterByName(users,$('#filter-input').val());
-        render();
-    })
+    controller.setFilter(filter);
+    controller.setDatas(users);
+    controller.updateView();
 });

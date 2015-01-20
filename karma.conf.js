@@ -12,10 +12,18 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
       'app/js/lib/Class.js',
       'app/js/main.js',
+      'app/js/controller.js',
       'app/js/filter.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+      {
+        pattern: 'test/fixture/*.html',
+        watched: true,
+        included: false,
+        served: true
+      }
     ],
 
     // list of files / patterns to exclude
