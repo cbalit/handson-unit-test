@@ -12,7 +12,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'bower_components/jquery/dist/jquery.js',
-      'js/main.js',
+      'app/js/main.js',
       'test/spec/**/*.js'
     ],
 
