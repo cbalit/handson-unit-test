@@ -8,7 +8,7 @@ if(handson == undefined){
 handson.Filter = Class.extend({
     //Filter on a array of object
     //check that the object have the key
-    filter : function(datas,value) {
+    filterByName : function(datas,value) {
         var filterDatas=[];
         if(datas && datas instanceof Array && datas.length>0) {
             if (value) {

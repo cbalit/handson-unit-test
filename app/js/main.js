@@ -74,4 +74,9 @@ var render=function(){
 
 $(function(){
     render();
+    var filter = new handson.Filter();
+    $('#filter-button').click(function (e) {
+        filteredUser=filter.filterByName(users,$('#filter-input').val());
+        render();
+    })
 });
