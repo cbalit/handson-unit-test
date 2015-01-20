@@ -1,6 +1,10 @@
 /**
  * Created by adzs637 on 13/01/2015.
  */
+if(handson == undefined){
+    var handson = {};
+}
+
 var users=filteredUser=[
         {
             "id": "54b525c472540a87",
