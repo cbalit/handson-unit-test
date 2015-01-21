@@ -48,7 +48,7 @@ describe("Proxy TesT Suite", function () {
         });
     });
 
-    describe("AJAX call", function () {
+    describe("AJAX call (with sinon spy)", function () {
 
         var spy;
 
@@ -69,6 +69,31 @@ describe("Proxy TesT Suite", function () {
             expect(spy.getCall(0).args[0].url).toEqual(proxy.url);
             expect(spy.getCall(0).args[0].data).toEqual(params);
         });
+
+    });
+    describe("AJAX call (with jasmine spy)", function () {
+
+        var spy;
+
+        beforeEach(function () {
+            // Spy on jQuery's ajax method
+            spy = spyOn(jQuery, 'ajax');
+        });
+
+        afterEach(function () {
+            //jQuery.ajax.restore();
+        });
+
+        it("it should make an ajax call with the proxy url and params on notification FILTER", function () {
+            var params = {};
+            notifier.notify(handson.NOTIFICATION.FILTER, params);
+            expect(spy.calls.any()).toBeTruthy();
+            // Check url and data property of first argument
+            var args=spy.calls.argsFor(0);
+            expect(args[0].url).toEqual(proxy.url);
+            expect(args[0].data).toEqual(params);
+        });
+
     });
 
     describe("SERVER response", function () {
