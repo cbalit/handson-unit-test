@@ -60,9 +60,9 @@ $(function(){
     var notifier=new handson.Notifier();
     var controller= new handson.Controller($('#users'));
     var proxy=new handson.Proxy('/mocks/filter.json');
-    proxy.setNotifier(notifier);
+
     controller.setDatas(users);
-    controller.setNotifier(notifier);
+
 
     controller.updateView();
 });

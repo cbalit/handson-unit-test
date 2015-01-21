@@ -18,14 +18,8 @@ handson.Controller = Class.extend({
         this.datas= datas;
     },
 
-    setNotifier:function (notifier) {
-        var _this = this;
-        this.notifier = notifier;
-        this.notifier.register(handson.NOTIFICATION.FILTER_OK, function (notif, data) {
-            if (data.filterDatas) {
-                _this.updateView(data.filterDatas);
-            }
-        });
+    setFilter : function(filter){
+        this.filter= filter;
     },
 
     addEvent : function(){
@@ -42,7 +36,8 @@ handson.Controller = Class.extend({
 
     filterDatas : function(value){
         if(value){
-            this.notifier.notify(handson.NOTIFICATION.FILTER, {datas:this.datas, filters:value});
+            var filterDatas=this.filter.filterByName(this.datas,value);
+            this.updateView(filterDatas);
         }
         else{
             this.resetView();
