@@ -1,11 +1,10 @@
 describe("Controller test suite", function () {
 
-    var controller,filter;
-    var datas,table;
+    var controller, notifier;
+    var datas, table;
 
     var SUZ_FIRSTNAME = 'Suzanne';
     var SUZ_LASTNAME = 'Mcbride';
-
 
 
     function expectTableHasNElements(length) {
@@ -18,7 +17,7 @@ describe("Controller test suite", function () {
         expectTableHasNElements(datas.length);
     }
 
-    function getTextAt(li,ce) {
+    function getTextAt(li, ce) {
         var line = table.find('tbody tr').eq(li);
         var cell = line.find('td').eq(ce);
         return cell.text();
@@ -30,14 +29,14 @@ describe("Controller test suite", function () {
         loadFixtures('filter.html');
 
 
-        datas=[
+        datas = [
             {
                 "id": "54b525c472540a87",
                 "firstname": "Suzanne",
                 "lastname": "Mcbride",
                 "mail": "suzannemcbride@accupharm.com",
                 "company": "COMTEXT",
-                "roles":["ADMIN"]
+                "roles": ["ADMIN"]
             },
             {
                 "id": "54b525c4d48c5977",
@@ -45,7 +44,7 @@ describe("Controller test suite", function () {
                 "lastname": "Humphrey",
                 "mail": "carrollhumphrey@comtext.com",
                 "company": "DEVILTOE",
-                "roles":["ADMIN"]
+                "roles": ["ADMIN"]
             },
             {
                 "id": "54b525c4d7e55f2d",
@@ -53,7 +52,7 @@ describe("Controller test suite", function () {
                 "lastname": "Mckinney",
                 "mail": "terrymckinney@deviltoe.com",
                 "company": "VIASIA",
-                "roles":["READ","WRITE"]
+                "roles": ["READ", "WRITE"]
             },
             {
                 "id": "54b525c4d233cc5a",
@@ -61,7 +60,7 @@ describe("Controller test suite", function () {
                 "lastname": "Hobbs",
                 "mail": "maureenhobbs@viasia.com",
                 "company": "MAGNINA",
-                "roles":["READ","WRITE"]
+                "roles": ["READ", "WRITE"]
             },
             {
                 "id": "54b525c4748ad8",
@@ -69,7 +68,7 @@ describe("Controller test suite", function () {
                 "lastname": "Raymond",
                 "mail": "idaraymond@magnina.com",
                 "company": "PHARMEX",
-                "roles":["READ"]
+                "roles": ["READ"]
             },
             {
                 "id": "54b525c456c8a1",
@@ -77,27 +76,27 @@ describe("Controller test suite", function () {
                 "lastname": "Jacobson",
                 "mail": "youngjacobson@pharmex.com",
                 "company": "XPLOR",
-                "roles":["ANONYMOUS"]
+                "roles": ["ANONYMOUS"]
             }
         ];
-        table=$('#users');
+        table = $('#users');
 
         controller = new handson.Controller(table);
-        filter = new handson.Filter();
-
-        controller.setFilter(filter);
+        notifier = new handson.Notifier();
+        controller.setNotifier(notifier);
         controller.setDatas(datas);
     });
 
     afterEach(function () {
         controller = null;
+        notifier = null;
     });
 
     describe("Concerning button click", function () {
 
 
         beforeEach(function () {
-            spyOn(controller, 'clickHandler');
+            spyOn(controller, 'clickHandler').and.callThrough();
         });
 
 
@@ -115,40 +114,12 @@ describe("Controller test suite", function () {
             spyOn(controller, 'filterDatas');
             $('#filter-input').val('value');
             $('#filter-button').click();
-            expect(controller.filterDatas).not.toHaveBeenCalledWith('value');
+            expect(controller.filterDatas).toHaveBeenCalledWith('value');
         });
 
     });
 
 
-    describe("Filtering datas", function () {
-
-        beforeEach(function () {
-            spyOn(controller, 'updateView').and.callThrough();
-            spyOn(controller, 'resetView').and.callThrough();
-            spyOn(filter, 'filterByName');
-        });
-
-
-        it("it should call the resetView function if there is no value", function () {
-            controller.filterDatas();
-            expect(controller.resetView).toHaveBeenCalled();
-        });
-
-        it("it should call the filterByName function of the Filter if we pass a value", function () {
-            controller.filterDatas(SUZ_FIRSTNAME);
-            expect(filter.filterByName).toHaveBeenCalled();
-        });
-
-        it("it should call the updateView function with the results of filtering", function () {
-            var filtered=[];
-            filter.filterByName.and.returnValue(filtered);
-            controller.filterDatas(SUZ_FIRSTNAME);
-            expect(controller.updateView).toHaveBeenCalledWith(filtered);
-        });
-
-
-    });
 
     describe("Reset view", function () {
 
@@ -183,46 +154,81 @@ describe("Controller test suite", function () {
 
 
         it("it should update view with the number of elements in the passing array", function () {
-            controller.updateView([datas[0],datas[2]]);
+            controller.updateView([datas[0], datas[2]]);
             expectTableHasNElements(2);
         });
 
         it("it should add the id in the first cell", function () {
-            var item=datas[0];
+            var item = datas[0];
             controller.updateView([item]);
-            var cellText=getTextAt(0,0);
+            var cellText = getTextAt(0, 0);
             expect(cellText).toBe(item.id);
         });
 
         it("it should add the firstname + lastname in the second cell", function () {
-            var item=datas[0];
+            var item = datas[0];
             controller.updateView([item]);
-            var cellText=getTextAt(0,1);
-            expect(cellText).toBe(item.firstname+' '+item.lastname);
+            var cellText = getTextAt(0, 1);
+            expect(cellText).toBe(item.firstname + ' ' + item.lastname);
         });
 
         it("it should add the mail in the 3thd cell", function () {
-            var item=datas[0];
+            var item = datas[0];
             controller.updateView([item]);
-            var cellText=getTextAt(0,2);
+            var cellText = getTextAt(0, 2);
             expect(cellText).toBe(item.mail);
         });
 
 
         it("it should add the company in the 4th cell", function () {
-            var item=datas[0];
+            var item = datas[0];
             controller.updateView([item]);
-            var cellText=getTextAt(0,3);
+            var cellText = getTextAt(0, 3);
             expect(cellText).toBe(item.company);
         });
 
         it("it should add the roles in the last cell", function () {
-            var item=datas[0];
+            var item = datas[0];
             controller.updateView([item]);
-            var cellText=getTextAt(0,4);
+            var cellText = getTextAt(0, 4);
             expect(cellText).toBe(item.roles.toString());
         });
     });
 
+    describe("Concerning filter call and response", function () {
 
-})
+
+        beforeEach(function () {
+            spyOn(controller, 'filterDatas').and.callThrough();
+            spyOn(controller, 'updateView').and.callThrough();
+            spyOn(controller, 'resetView').and.callThrough();
+        });
+
+        it("it should call the resetView function if there is no value", function () {
+            controller.filterDatas();
+            expect(controller.resetView).toHaveBeenCalled();
+        });
+
+        it("it should send notification FILTER with correct params", function () {
+
+            var spy = jasmine.createSpy('listener');
+            notifier.register(handson.NOTIFICATION.FILTER, spy);
+            controller.filterDatas(SUZ_FIRSTNAME);
+            expect(spy).toHaveBeenCalled();
+        });
+
+
+        it("it should not call the updateView function on notification FILTER_OK if the result have no filterDatas property", function () {
+            notifier.notify(handson.NOTIFICATION.FILTER_OK, {});
+            expect(controller.updateView).not.toHaveBeenCalled();
+        });
+
+
+        it("it should call the updateView function on notification FILTER_OK if the result have a filterDatas", function () {
+            notifier.notify(handson.NOTIFICATION.FILTER_OK, {filterDatas: []});
+            expect(controller.updateView).toHaveBeenCalled();
+        });
+
+    });
+
+});

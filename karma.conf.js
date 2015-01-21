@@ -13,10 +13,9 @@ module.exports = function(config) {
     files: [
       'bower_components/jquery/dist/jquery.js',
       'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
+      'bower_components/sinonjs/sinon.js',
       'app/js/lib/Class.js',
-      'app/js/main.js',
-      'app/js/controller.js',
-      'app/js/filter.js',
+      'app/js/**/*.js',
       'test/spec/**/*.js',
       {
         pattern: 'test/fixture/*.html',

@@ -1,0 +1,20 @@
+{   "status":"ok",
+  "filterDatas":[
+    {
+      "id": "54b525c4d48c5977",
+      "firstname": "Carroll",
+      "lastname": "Humphrey",
+      "mail": "carrollhumphrey@comtext.com",
+      "company": "DEVILTOE",
+      "roles":["ADMIN"]
+    },
+    {
+      "id": "54b525c4d7e55f2d",
+      "firstname": "Terry",
+      "lastname": "Mckinney",
+      "mail": "terrymckinney@deviltoe.com",
+      "company": "VIASIA",
+      "roles":["READ","WRITE"]
+    }
+  ]
+}
