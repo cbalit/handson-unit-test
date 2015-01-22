@@ -13,9 +13,12 @@ module.exports = function(config) {
     files: [
       'bower_components/jquery/dist/jquery.js',
       'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
+      'bower_components/underscore/underscore.js',
+      'bower_components/backbone/backbone.js',
       'bower_components/sinonjs/sinon.js',
-      'app/js/lib/Class.js',
-      'app/js/**/*.js',
+      'app/js/models/user.js',
+      'app/js/collections/users.js',
+      'app/js/views/app-view.js',
       'test/spec/**/*.js',
       {
         pattern: 'test/fixture/*.html',

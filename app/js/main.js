@@ -5,7 +5,8 @@ if(handson == undefined){
     var handson = {};
 }
 
-var users=filteredUser=[
+$(function(){
+    var usersDatas=[
         {
             "id": "54b525c472540a87",
             "firstname": "Suzanne",
@@ -56,13 +57,6 @@ var users=filteredUser=[
         }
     ];
 
-$(function(){
-    var notifier=new handson.Notifier();
-    var controller= new handson.Controller($('#users'));
-    var proxy=new handson.Proxy('/mocks/filter.json');
-
-    controller.setDatas(users);
-
-
-    controller.updateView();
+    handson.users.setInitDatas(usersDatas);
+    new handson.AppView();
 });

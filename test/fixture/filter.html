@@ -1,4 +1,13 @@
-<div class="container">
+<div id="userapp" class="container">
+    <script type="text/template" id="user-template">
+        <tr>
+            <td><%- id %></td>
+            <td><%- firstname + ' ' +lastname %></td>
+            <td><%- mail %></td>
+            <td><%- company %></td>
+            <td><%- roles %></td>
+        </tr>
+    </script>
     <input type="text" id="filter-input">
     <button id="filter-button"></button>
     <button id="other-button"></button>
