@@ -77,3 +77,13 @@ body {
         border-bottom: 0;
     }
 }
+
+
+#app{
+  transition: all 2s ease;
+  opacity: 0;
+}
+
+#app.loaded{
+  opacity: 1;
+}

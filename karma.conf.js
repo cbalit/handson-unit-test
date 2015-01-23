@@ -12,12 +12,13 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/jasmine-jquery/lib/jasmine-jquery.js',
-      'app/js/lib/Class.js',
-      'app/js/main.js',
-      'app/js/controller.js',
-      'app/js/filter.js',
-      'test/spec/**/*.js',
+      'app/js/app.js',
+      'app/js/**/*.js',
+      'test/spec/controllers/main.js',
+      'test/spec/services/userservice.js',
       {
         pattern: 'test/fixture/*.html',
         watched: true,
