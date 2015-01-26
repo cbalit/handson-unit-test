@@ -77,3 +77,13 @@ body {
         border-bottom: 0;
     }
 }
+
+.checkbox{
+    margin-left: 15px;
+}
+
+.form-inline{
+    border: 1px solid lightgrey;
+    margin: 10px;
+    padding: 10px;
+}

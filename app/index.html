@@ -32,6 +32,28 @@
     <form class="form-inline">
         <input type="text" id="filter-input" class="form-control" placeholder="Filter...">
         <button id="filter-button" type="button" class="btn btn-primary">Filter</button>
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="filter-name" checked>
+            By name
+        </label>
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="filter-roles">
+           By Roles
+        </label>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="ADMIN">
+                ADMIN
+            </label>
+            <label>
+                <input type="checkbox" value="READ">
+                READ
+            </label>
+            <label>
+                <input type="checkbox" value="WRITE">
+                WRITE
+            </label>
+        </div>
     </form>
     <div class="table-responsive">
         <table id="users" class="table table-striped">
@@ -50,6 +72,9 @@
     </div>
 </div>
 <script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="js/lib/Class.js"></script>
 <script src="js/main.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/filter.js"></script>
 </body>
 </html>
