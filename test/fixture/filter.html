@@ -1,7 +1,15 @@
-<div class="container">
-    <input type="text" id="filter-input">
-    <button id="filter-button"></button>
-    <button id="other-button"></button>
+<div class="container" style="width: 100px; height: 100px;">
+
+        <input type="text" id="filter-input">
+        <button id="filter-button" type="button"></button>
+        <input type="radio"  id="optionsRadios1" value="filter-name">
+        <input type="radio"  id="optionsRadios2" value="filter-roles">
+        <div id="chk-roles">
+            <input type="checkbox" value="ADMIN">
+            <input type="checkbox" value="READ">
+            <input type="checkbox" value="WRITE">
+        </div>
+
     <table id="users">
         <thead>
         <tr>

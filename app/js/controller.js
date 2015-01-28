@@ -46,7 +46,7 @@ handson.Controller = Class.extend({
             _this.filterBy(_this.BY_ROLES);
             $('#chk-roles').show();
         });
-        $('.checkbox input').click(function (e) {
+        $('#chk-roles input').click(function (e) {
             _this.toggleRoles(e.target.value);
         })
     },
@@ -55,9 +55,7 @@ handson.Controller = Class.extend({
         this.filterDatas();
     },
     clickHandler: function (e) {
-        var value = $('#filter-input').val();
         this.filterDatas();
-        //this.filterDatas(value);
     },
 
     filterBy: function (filterName) {
@@ -65,6 +63,9 @@ handson.Controller = Class.extend({
         this.filterDatas();
     },
     toggleRoles: function (role) {
+        if(!this.filterParams.roles){
+            this.filterParams.roles=[];
+        }
         var ind = this.filterParams.roles.indexOf(role);
         if (ind == -1) {
             this.filterParams.roles.push(role);
@@ -74,22 +75,16 @@ handson.Controller = Class.extend({
         }
         this.filterDatas();
     },
-    filterDatas: function (value) {
-        console.log('FILTER......', this.filterParams);
-        var filterDatas;
-        //if (this.filterParams.value) {
-            if (this.filterParams.by == this.BY_NAME) {
-                filterDatas = this.filter.filterByName(this.datas, this.filterParams.value);
-            }
-            else if (this.filterParams.by == this.BY_ROLES) {
-                filterDatas = this.filter.filterByRoles(this.datas, this.filterParams.roles);
-            }
-            this.updateView(filterDatas);
-        /*}
-        else {
-            this.resetView();
-        }*/
+    filterDatas: function () {
+        var filterDatas=this.datas;
 
+        if (this.filterParams.by == this.BY_NAME) {
+            filterDatas = this.filter.filterByName(this.datas, this.filterParams.value);
+        }
+        else if (this.filterParams.by == this.BY_ROLES) {
+            filterDatas = this.filter.filterByRoles(this.datas, this.filterParams.roles);
+        }
+        this.updateView(filterDatas);
     },
 
     updateView: function (datas) {

@@ -52,7 +52,7 @@ var users=filteredUser=[
         "lastname": "Jacobson",
         "mail": "youngjacobson@pharmex.com",
         "company": "XPLOR",
-        "roles":["ANONYMOUS"]
+        "roles":["WRITE"]
     }
 ];
 

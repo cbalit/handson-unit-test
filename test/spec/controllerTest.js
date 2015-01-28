@@ -5,7 +5,8 @@ describe("Controller test suite", function () {
 
     var SUZ_FIRSTNAME = 'Suzanne';
     var SUZ_LASTNAME = 'Mcbride';
-
+    var ROLE_ADMIN = 'ADMIN';
+    var ROLE_READ = 'READ';
 
 
     function expectTableHasNElements(length) {
@@ -77,13 +78,13 @@ describe("Controller test suite", function () {
                 "lastname": "Jacobson",
                 "mail": "youngjacobson@pharmex.com",
                 "company": "XPLOR",
-                "roles":["ANONYMOUS"]
+                "roles":["WRITE"]
             }
         ];
         table=$('#users');
 
         controller = new handson.Controller(table);
-        filter = new handson.Filter();
+        filter = jasmine.createSpyObj('filter',['filterByName','filterByRoles']);
 
         controller.setFilter(filter);
         controller.setDatas(datas);
@@ -93,58 +94,174 @@ describe("Controller test suite", function () {
         controller = null;
     });
 
-    describe("Concerning button click", function () {
+    describe("Initialisation", function () {
+        it("it should have a filterParams object", function () {
+            expect(controller.filterParams).toBeDefined();
+        });
+
+        it("it should have a filterParams object with an '' value", function () {
+            expect(controller.filterParams.value).toBe('');
+        });
+
+        it("it should have a filterParams object with an empty array in roles", function () {
+            expect(controller.filterParams.roles).toEqual([]);
+        });
+
+        it("it should have a filterParams object with an BY_NAME by", function () {
+            expect(controller.filterParams.by).toBe(controller.BY_NAME);
+        });
+    });
+
+
+    describe("Concerning view event", function () {
 
 
         beforeEach(function () {
-            spyOn(controller, 'clickHandler');
+            spyOn(controller, 'clickHandler').and.callThrough();
+            spyOn(controller, 'inputChangeHandler').and.callThrough();
+            spyOn(controller, 'filterBy').and.callThrough();
+            spyOn(controller, 'toggleRoles').and.callThrough();
+            spyOn(controller, 'filterDatas');
         });
 
 
-        it("it should listen click on input with id filter-button", function () {
+        it("it should call clickHandler on filter-button click", function () {
             $('#filter-button').click();
             expect(controller.clickHandler).toHaveBeenCalled();
         });
 
-        it("it should not listen click on other element", function () {
-            $('#other-button').click();
-            expect(controller.clickHandler).not.toHaveBeenCalled();
+
+        it("it should call filterBy with BY_ROLES on optionsRadios1 click", function () {
+            $('#optionsRadios1').click();
+            expect(controller.filterBy).toHaveBeenCalledWith(controller.BY_NAME);
         });
 
-        it("it should call filterDatas with the input value as arguments", function () {
-            spyOn(controller, 'filterDatas');
-            $('#filter-input').val('value');
-            $('#filter-button').click();
-            expect(controller.filterDatas).not.toHaveBeenCalledWith('value');
+
+        it("it should hide #chk-role when optionsRadios1 click", function () {
+            var chkCont=$('#chk-roles');
+            chkCont.show();
+            expect($('#chk-roles')).toBeVisible();
+            $('#optionsRadios1').click();
+            expect(chkCont).toBeHidden();
+        });
+
+        it("it should call filterBy with BY_ROLES on optionsRadios2 click", function () {
+            $('#optionsRadios2').click();
+            expect(controller.filterBy).toHaveBeenCalledWith(controller.BY_ROLES);
+        });
+
+        it("it should show #chk-role when optionsRadios2 click", function () {
+            var chkCont=$('#chk-roles');
+            chkCont.hide();
+            expect(chkCont).toBeHidden();
+            $('#optionsRadios2').click();
+            expect(chkCont).toBeVisible();
+        });
+
+        it("it should call toggleRoles on checkbox click", function () {
+            var check=$('#chk-roles input').eq(0);
+            check.click();
+            expect(controller.toggleRoles).toHaveBeenCalledWith(check.val());
+        });
+
+        it("it should call inputChangeHandler on input keyup", function () {
+            var input=$('#filter-input');
+            input.trigger('keyup');
+            expect(controller.inputChangeHandler).toHaveBeenCalled();
         });
 
     });
 
+    describe("Concerning handler", function () {
+
+
+        beforeEach(function () {
+            spyOn(controller, 'filterDatas');
+        });
+
+
+        it("it should call filterDatas on clickHandler", function () {
+            controller.clickHandler();
+            expect(controller.filterDatas).toHaveBeenCalled();
+        });
+
+        it("it should call filterDatas on filterBy", function () {
+            controller.filterBy();
+            expect(controller.filterDatas).toHaveBeenCalled();
+        });
+
+        it("it should call filterDatas on toggleRoles", function () {
+            controller.toggleRoles();
+            expect(controller.filterDatas).toHaveBeenCalled();
+        });
+
+        it("it should call filterDatas on inputChangeHandler", function () {
+            controller.inputChangeHandler();
+            expect(controller.filterDatas).toHaveBeenCalled();
+        });
+
+        it("filterBy should reccord the parameter in by property of filterParams", function () {
+            controller.filterParams.by=null;
+            controller.filterBy(controller.BY_NAME);
+            expect(controller.filterParams.by).toBe(controller.BY_NAME);
+        });
+
+        it("toggleRoles should add the role in the filter list if not already in", function () {
+            controller.filterParams.roles=[];
+            controller.toggleRoles("ROLE1");
+            expect(controller.filterParams.roles.length).toBe(1);
+            expect(controller.filterParams.roles[0]).toBe("ROLE1");
+        });
+
+        it("toggleRoles should remove the role from the filter list if already in", function () {
+            controller.filterParams.roles=["ROLE1"];
+            controller.toggleRoles("ROLE1");
+            expect(controller.filterParams.roles.length).toBe(0);
+        });
+
+    });
 
     describe("Filtering datas", function () {
 
         beforeEach(function () {
+            var filterDatas=["FILTERED"];
             spyOn(controller, 'updateView').and.callThrough();
-            spyOn(controller, 'resetView').and.callThrough();
-            spyOn(filter, 'filterByName');
         });
 
 
-        it("it should call the resetView function if there is no value", function () {
+        it("it should not call the Filter if we don't have by in params", function () {
+            controller.filterParams.by=null;
             controller.filterDatas();
-            expect(controller.resetView).toHaveBeenCalled();
+            expect(filter.filterByRoles).not.toHaveBeenCalled();
+            expect(filter.filterByName).not.toHaveBeenCalled();
         });
 
-        it("it should call the filterByName function of the Filter if we pass a value", function () {
-            controller.filterDatas(SUZ_FIRSTNAME);
+        it("it should call the filterByName function of the Filter if filter BY_NAME", function () {
+            controller.filterParams.by=controller.BY_NAME;
+            controller.filterDatas();
             expect(filter.filterByName).toHaveBeenCalled();
         });
 
+        it("it should call the filterByRoles function of the Filter if filter BY_ROLES", function () {
+            controller.filterParams.by=controller.BY_ROLES;
+            controller.filterDatas();
+            expect(filter.filterByRoles).toHaveBeenCalled();
+        });
+
         it("it should call the updateView function with the results of filtering", function () {
-            var filtered=[];
-            filter.filterByName.and.returnValue(filtered);
-            controller.filterDatas(SUZ_FIRSTNAME);
-            expect(controller.updateView).toHaveBeenCalledWith(filtered);
+            controller.filterParams.by=controller.BY_NAME;
+            var filterDatas=["FILTERED"];
+            filter.filterByName.and.returnValue(filterDatas);
+            controller.filterDatas();
+            expect(controller.updateView).toHaveBeenCalledWith(filterDatas);
+        });
+
+        it("it should call the updateView function with the results of filtering", function () {
+            controller.filterParams.by=controller.BY_ROLES;
+            var filterDatas=["FILTERED"];
+            filter.filterByRoles.and.returnValue(filterDatas);
+            controller.filterDatas();
+            expect(controller.updateView).toHaveBeenCalledWith(filterDatas);
         });
 
 
@@ -225,4 +342,4 @@ describe("Controller test suite", function () {
     });
 
 
-})
+});
