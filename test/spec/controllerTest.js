@@ -4,31 +4,11 @@ describe("Controller test suite", function () {
     var datas,table;
 
     var SUZ_FIRSTNAME = 'Suzanne';
-    var SUZ_LASTNAME = 'Mcbride';
-
-
-
-    function expectTableHasNElements(length) {
-        var nbItems = table.find('tbody tr');
-        expect(nbItems).toHaveLength(length);
-    }
-
-
-    function expectTableHasAllElements() {
-        expectTableHasNElements(datas.length);
-    }
-
-    function getTextAt(li,ce) {
-        var line = table.find('tbody tr').eq(li);
-        var cell = line.find('td').eq(ce);
-        return cell.text();
-    }
 
 
     beforeEach(function () {
         jasmine.getFixtures().fixturesPath = '/base/test/fixture';
         loadFixtures('filter.html');
-
 
         datas=[
             {
@@ -80,149 +60,13 @@ describe("Controller test suite", function () {
                 "roles":["ANONYMOUS"]
             }
         ];
-        table=$('#users');
 
         controller = new handson.Controller(table);
-        filter = new handson.Filter();
-
-        controller.setFilter(filter);
-        controller.setDatas(datas);
     });
 
     afterEach(function () {
         controller = null;
     });
 
-    describe("Concerning button click", function () {
 
-
-        beforeEach(function () {
-            spyOn(controller, 'clickHandler');
-        });
-
-
-        it("it should listen click on input with id filter-button", function () {
-            $('#filter-button').click();
-            expect(controller.clickHandler).toHaveBeenCalled();
-        });
-
-        it("it should not listen click on other element", function () {
-            $('#other-button').click();
-            expect(controller.clickHandler).not.toHaveBeenCalled();
-        });
-
-        it("it should call filterDatas with the input value as arguments", function () {
-            spyOn(controller, 'filterDatas');
-            $('#filter-input').val('value');
-            $('#filter-button').click();
-            expect(controller.filterDatas).not.toHaveBeenCalledWith('value');
-        });
-
-    });
-
-
-    describe("Filtering datas", function () {
-
-        beforeEach(function () {
-            spyOn(controller, 'updateView').and.callThrough();
-            spyOn(controller, 'resetView').and.callThrough();
-            spyOn(filter, 'filterByName');
-        });
-
-
-        it("it should call the resetView function if there is no value", function () {
-            controller.filterDatas();
-            expect(controller.resetView).toHaveBeenCalled();
-        });
-
-        it("it should call the filterByName function of the Filter if we pass a value", function () {
-            controller.filterDatas(SUZ_FIRSTNAME);
-            expect(filter.filterByName).toHaveBeenCalled();
-        });
-
-        it("it should call the updateView function with the results of filtering", function () {
-            var filtered=[];
-            filter.filterByName.and.returnValue(filtered);
-            controller.filterDatas(SUZ_FIRSTNAME);
-            expect(controller.updateView).toHaveBeenCalledWith(filtered);
-        });
-
-
-    });
-
-    describe("Reset view", function () {
-
-
-        it("it should restore all elements of the table", function () {
-            //Let only one elements in the table
-            controller.updateView([datas[0]]);
-            expectTableHasNElements(1);
-            controller.resetView();
-            expectTableHasAllElements();
-        });
-
-    });
-
-    describe("Update view", function () {
-
-
-        it("it restore all elements table if there is no arguments", function () {
-            controller.updateView();
-            expectTableHasAllElements();
-        });
-
-        it("it should empty the table if called with an empty array", function () {
-            controller.updateView([]);
-            expectTableHasNElements(0);
-        });
-
-        it("it should empty the table if called with not an array", function () {
-            controller.updateView("notnArray");
-            expectTableHasNElements(0);
-        });
-
-
-        it("it should update view with the number of elements in the passing array", function () {
-            controller.updateView([datas[0],datas[2]]);
-            expectTableHasNElements(2);
-        });
-
-        it("it should add the id in the first cell", function () {
-            var item=datas[0];
-            controller.updateView([item]);
-            var cellText=getTextAt(0,0);
-            expect(cellText).toBe(item.id);
-        });
-
-        it("it should add the firstname + lastname in the second cell", function () {
-            var item=datas[0];
-            controller.updateView([item]);
-            var cellText=getTextAt(0,1);
-            expect(cellText).toBe(item.firstname+' '+item.lastname);
-        });
-
-        it("it should add the mail in the 3thd cell", function () {
-            var item=datas[0];
-            controller.updateView([item]);
-            var cellText=getTextAt(0,2);
-            expect(cellText).toBe(item.mail);
-        });
-
-
-        it("it should add the company in the 4th cell", function () {
-            var item=datas[0];
-            controller.updateView([item]);
-            var cellText=getTextAt(0,3);
-            expect(cellText).toBe(item.company);
-        });
-
-        it("it should add the roles in the last cell", function () {
-            var item=datas[0];
-            controller.updateView([item]);
-            var cellText=getTextAt(0,4);
-            expect(cellText).toBe(item.roles.toString());
-        });
-    });
-
-
-})
+});

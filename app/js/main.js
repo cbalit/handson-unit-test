@@ -57,9 +57,5 @@ var users=filteredUser=[
     ];
 
 $(function(){
-    var controller = new handson.Controller($('#users'));
-    var filter = new handson.Filter();
-    controller.setFilter(filter);
-    controller.setDatas(users);
-    controller.updateView();
+
 });
