@@ -97,7 +97,7 @@ describe("Controller test suite", function () {
 
 
         beforeEach(function () {
-            spyOn(controller, 'clickHandler');
+            spyOn(controller, 'clickHandler').and.callThrough();
         });
 
 
@@ -115,7 +115,7 @@ describe("Controller test suite", function () {
             spyOn(controller, 'filterDatas');
             $('#filter-input').val('value');
             $('#filter-button').click();
-            expect(controller.filterDatas).not.toHaveBeenCalledWith('value');
+            expect(controller.filterDatas).toHaveBeenCalledWith('value');
         });
 
     });
