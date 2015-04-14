@@ -10,6 +10,9 @@ handson.Controller = Class.extend({
     table:null,
 
     init : function(table) {
+        if(!table){
+            throw new Error("missing required arguments");
+        }
         this.table= table;
         this.addEvent();
     },

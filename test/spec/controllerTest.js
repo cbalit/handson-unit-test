@@ -93,6 +93,16 @@ describe("Controller test suite", function () {
         controller = null;
     });
 
+    describe("initialisation", function () {
+        it("it should listen click on input with id filter-button", function () {
+            var testFunc=function(){
+                return new handson.Controller(null);
+            }
+            expect(testFunc).toThrow(new Error("missing required arguments"));
+        });
+
+    });
+
     describe("Concerning button click", function () {
 
 
